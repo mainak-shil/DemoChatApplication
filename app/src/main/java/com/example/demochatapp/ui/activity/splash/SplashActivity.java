@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.demochatapp.R;
+import com.example.demochatapp.ui.activity.home.HomeActivity;
 import com.example.demochatapp.ui.activity.sign_up.RegisterActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,8 +27,17 @@ public class SplashActivity extends AppCompatActivity {
                 .postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        SplashActivity.this.startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
-                        SplashActivity.this.finish();
+                        // Initialize Firebase Auth
+                        FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
+
+                        if (mFirebaseUser == null) {
+                            // Not signed in, launch the Sign In activity
+                            startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
+                            return;
+                        } else {
+                            SplashActivity.this.startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                        }
+                        finish();
                     }
                 }, 2000);
     }
